@@ -1,356 +1,368 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Rakshak – WhatsApp View</title>
+<head>
+  <title>Rakshak – WhatsApp View</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+  <style>
+    * { box-sizing: border-box; }
 
-      body {
-        margin: 0;
-        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-        background: #111b21;
-        height: 100vh;
-        display: flex;
-        color: #e9edef;
-      }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #111b21;
+      height: 100vh;
+      display: flex;
+      color: #e9edef;
+    }
 
-      .left {
-        width: 28%;
-        background: #111b21;
-        border-right: 1px solid #222e35;
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+    /* ---------- LEFT (DESKTOP) ---------- */
+    .left {
+      width: 28%;
+      background: #111b21;
+      border-right: 1px solid #222e35;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-      textarea {
-        background: #202c33;
-        color: #e9edef;
-        border: none;
-        border-radius: 8px;
-        padding: 10px;
-        height: 120px;
-        resize: none;
-        outline: none;
-        font-size: 14px;
-      }
+    textarea {
+      background: #202c33;
+      color: #e9edef;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      height: 120px;
+      resize: none;
+      outline: none;
+      font-size: 14px;
+    }
 
-      button {
-        padding: 10px;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-      #modeStatus {
-        color: red;
-      }
-      .send-btn {
-        background: #00a884;
-        color: #002e25;
-        font-weight: 600;
-      }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
 
-      .info-btn {
-        background: #202c33;
-        color: #e9edef;
-        margin-top: auto;
-      }
+    .send-btn {
+      background: #00a884;
+      color: #002e25;
+      font-weight: 600;
+    }
 
-      .right {
-        width: 72%;
-        display: flex;
-        flex-direction: column;
-        background: #0b141a;
-      }
+    .info-btn {
+      background: #202c33;
+      color: #e9edef;
+      margin-top: auto;
+    }
 
-      .header {
-        height: 59px;
-        background: #202c33;
-        display: flex;
-        align-items: center;
-        padding: 0 14px;
-        border-bottom: 1px solid #222e35;
-        gap: 12px;
-      }
+    /* ---------- RIGHT ---------- */
+    .right {
+      width: 72%;
+      display: flex;
+      flex-direction: column;
+      background: #0b141a;
+    }
 
-      .avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #6b7280;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: #111b21;
-      }
+    .header {
+      height: 59px;
+      background: #202c33;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 12px;
+      border-bottom: 1px solid #222e35;
+    }
 
-      .contact-info {
-        display: flex;
-        flex-direction: column;
-      }
+    .hamburger {
+      font-size: 22px;
+      cursor: pointer;
+      display: none;
+    }
 
-      .contact-name {
-        font-size: 15px;
-        font-weight: 600;
-      }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #111b21;
+    }
 
-      .contact-status {
-        font-size: 12px;
-        color: #8696a0;
-      }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-      .brand {
-        font-size: 13px;
-        font-weight: 700;
-        color: #25d366;
-        padding: 4px 8px;
-        border-radius: 6px;
-        background: rgba(37, 211, 102, 0.12);
-        margin-left: auto; /* 🔥 RIGHT END FIX */
-      }
+    .contact-name { font-size: 15px; font-weight: 600; }
+    .contact-status { font-size: 12px; color: #8696a0; }
 
-      .chat {
-        flex: 1;
-        padding: 12px 16px;
-        overflow-y: auto;
-      }
+    .brand {
+      margin-left: auto;
+      font-weight: 700;
+      color: #25d366;
+    }
 
-      .row {
-        display: flex;
-        margin-bottom: 4px;
-      }
+    .chat {
+      flex: 1;
+      padding: 12px 16px;
+      overflow-y: auto;
+    }
 
-      .bubble {
-        max-width: 65%;
-        padding: 6px 8px;
-        font-size: 14px;
-        line-height: 1.4;
-        border-radius: 7.5px;
-        word-wrap: break-word;
-      }
+    .row { display: flex; margin-bottom: 4px; }
 
-      .scammer {
-        background: #202c33;
-        border-top-left-radius: 0;
-      }
+    .bubble {
+      max-width: 75%;
+      padding: 6px 8px;
+      font-size: 14px;
+      border-radius: 7.5px;
+      line-height: 1.4;
+    }
 
-      .user,
-      .ai {
-        background: #005c4b;
-        margin-left: auto;
-        border-top-right-radius: 0;
-      }
+    .scammer {
+      background: #202c33;
+      border-top-left-radius: 0;
+    }
 
-      .input-bar {
-        height: 62px;
-        background: #202c33;
-        border-top: 1px solid #222e35;
-        display: flex;
-        align-items: center;
-        padding: 0 10px;
-        gap: 10px;
-      }
+    .user, .ai {
+      background: #005c4b;
+      margin-left: auto;
+      border-top-right-radius: 0;
+    }
 
-      .input-bar input {
-        flex: 1;
-        background: #111b21;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 14px;
-        color: #e9edef;
-        outline: none;
-        font-size: 14px;
-      }
+    .input-bar {
+      height: 62px;
+      background: #202c33;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 10px;
+    }
 
-      .input-bar button {
-        background: #00a884;
-        color: #002e25;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        font-weight: bold;
-      }
+    .input-bar input {
+      flex: 1;
+      background: #111b21;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 14px;
+      color: #e9edef;
+      outline: none;
+    }
 
-      .locked {
-        pointer-events: none;
-        opacity: 0.4;
-      }
+    .input-bar button {
+      background: #00a884;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+    }
 
-      .json-box {
-        background: #111b21;
-        border-top: 1px solid #222e35;
-        max-height: 220px;
-        overflow-y: auto;
-        display: none;
-        padding: 12px;
-      }
+    .json-box {
+      background: #111b21;
+      border-top: 1px solid #222e35;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      padding: 12px;
+    }
 
-      pre {
-        margin: 0;
-        font-size: 12px;
-        color: #25d366;
-        white-space: pre-wrap;
-      }
-    </style>
-  </head>
+    pre {
+      font-size: 12px;
+      color: #25d366;
+      white-space: pre-wrap;
+    }
 
-  <body>
-    <!-- LEFT -->
-    <div class="left">
-      <textarea
-        id="scammerInput"
-        placeholder="Paste scammer message..."
-      ></textarea>
-      <button class="send-btn" onclick="sendScammer()">
-        Inject Scammer Msg
-      </button>
-      <button class="info-btn" onclick="toggleInfo()">📊 Extracted Info</button>
+    /* ---------- MOBILE SCAMMER PANEL ---------- */
+    .mobile-panel {
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      right: 0;
+      background: #111b21;
+      border-top: 1px solid #222e35;
+      padding: 12px;
+      transition: 0.3s;
+      z-index: 10;
+    }
+
+    .mobile-panel.show { bottom: 0; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      .left { display: none; }
+      .right { width: 100%; }
+      .hamburger { display: block; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- LEFT DESKTOP -->
+<div class="left">
+  <textarea id="scammerInput" placeholder="Paste scammer message..."></textarea>
+  <button class="send-btn" onclick="sendScammer()">Inject Scammer Msg</button>
+  <button class="info-btn" onclick="toggleInfo()">📊 Extracted Info</button>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+
+  <div class="header">
+    <div class="hamburger" onclick="togglePanel()">☰</div>
+    <div class="avatar">S</div>
+    <div class="contact-info">
+      <div class="contact-name" id="contactName">Unknown</div>
+      <div class="contact-status" id="modeStatus"></div>
     </div>
+    <div class="brand">Rakshak.ai</div>
+  </div>
 
-    <!-- RIGHT -->
-    <div class="right">
-      <div class="header">
-        <div class="avatar">S</div>
+  <div class="chat" id="chat"></div>
 
-        <div class="contact-info">
-          <div class="contact-name" id="contactName">Unknown Contact</div>
-          <div class="contact-status" id="modeStatus"></div>
-        </div>
+  <div class="input-bar" id="userBar">
+    <input id="userInput" placeholder="Type a message">
+    <button onclick="sendUser()">➤</button>
+  </div>
 
-        <div class="brand">Rakshak.ai</div>
-      </div>
+  <div class="json-box" id="jsonBox">
+    <pre id="intelligence">{}</pre>
+  </div>
+</div>
 
-      <div class="chat" id="chat"></div>
+<!-- MOBILE PANEL -->
+<div class="mobile-panel" id="mobilePanel">
+  <textarea id="mobileScammerInput" placeholder="Paste scammer message..."></textarea>
+  <button class="send-btn" onclick="sendScammer(true)">Inject</button>
+  <button class="info-btn" onclick="toggleInfo()">📊 Extracted Info</button>
+</div>
 
-      <div class="input-bar" id="userBar">
-        <input id="userInput" placeholder="Type a message" />
-        <button onclick="sendUser()">➤</button>
-      </div>
+<script>
+  let aiTakeover = false;
+  let lastIntel = {};
+  let infoVisible = false;
 
-      <div class="json-box" id="jsonBox">
-        <pre id="intelligence">{}</pre>
-      </div>
-    </div>
+  document.getElementById("userInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendUser();
+  });
 
-    <script>
-      let aiTakeover = false;
-      let lastIntel = {};
-      let infoVisible = false;
+  function togglePanel() {
+    document.getElementById("mobilePanel").classList.toggle("show");
+  }
 
-      document.getElementById("userInput").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") sendUser();
+  function appendBubble(role, text) {
+    const chat = document.getElementById("chat");
+    const row = document.createElement("div");
+    row.className = "row";
+    const bubble = document.createElement("div");
+    bubble.className = "bubble " + role;
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    chat.appendChild(row);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function toggleInfo() {
+    infoVisible = !infoVisible;
+    document.getElementById("jsonBox").style.display =
+      infoVisible ? "block" : "none";
+  }
+
+  async function typeInInput(text, speed = 50) {
+    const input = document.getElementById("userInput");
+    const bar = document.getElementById("userBar");
+
+    bar.classList.remove("locked");
+    input.value = "";
+    document.getElementById("modeStatus").innerText =
+      "Scam Detected • AI Takeover Active";
+
+    for (let ch of text) {
+      input.value += ch;
+      await new Promise((r) => setTimeout(r, speed));
+    }
+
+    bar.classList.add("locked");
+  }
+
+  function sendScammer(fromMobile = false) {
+    const input = fromMobile
+      ? document.getElementById("mobileScammerInput")
+      : document.getElementById("scammerInput");
+
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    appendBubble("scammer", msg);
+    input.value = "";
+    document.getElementById("contactName").innerText = "Unknown";
+
+    analyze(msg);
+    if (fromMobile) togglePanel();
+  }
+
+  function sendUser() {
+    if (aiTakeover) return;
+
+    const input = document.getElementById("userInput");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    appendBubble("user", msg);
+    input.value = "";
+
+    analyze(msg);
+  }
+
+  async function analyze(message) {
+    const chat = document.getElementById("chat");
+
+    const typingRow = document.createElement("div");
+    typingRow.className = "row";
+    const typingBubble = document.createElement("div");
+    typingBubble.className = "bubble ai";
+    typingBubble.textContent = "typing…";
+    typingRow.appendChild(typingBubble);
+    chat.appendChild(typingRow);
+    chat.scrollTop = chat.scrollHeight;
+
+    try {
+      const res = await fetch("/api/receive-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversation_id: "honeypot",
+          sender_id: "scammer",
+          message,
+        }),
       });
 
-      function appendBubble(role, text) {
-        const chat = document.getElementById("chat");
-        const row = document.createElement("div");
-        row.className = "row";
-        const bubble = document.createElement("div");
-        bubble.className = "bubble " + role;
-        bubble.textContent = text;
-        row.appendChild(bubble);
-        chat.appendChild(row);
-        chat.scrollTop = chat.scrollHeight;
+      const data = await res.json();
+      typingRow.remove();
+
+      if (data.intelligence) {
+        lastIntel = { ...lastIntel, ...data.intelligence };
+        document.getElementById("intelligence").textContent =
+          JSON.stringify(lastIntel, null, 2);
       }
 
-      function toggleInfo() {
-        infoVisible = !infoVisible;
-        document.getElementById("jsonBox").style.display = infoVisible
-          ? "block"
-          : "none";
+      if (data.reply) {
+        aiTakeover = true;
+        await typeInInput(data.reply);
+        appendBubble("ai", data.reply);
+        document.getElementById("userInput").value = "";
       }
+    } catch (err) {
+      typingRow.remove();
+      console.error("API error:", err);
+    }
+  }
+</script>
 
-      async function typeInInput(text, speed = 55) {
-        const input = document.getElementById("userInput");
-        const bar = document.getElementById("userBar");
-        bar.classList.remove("locked");
-        input.value = "";
-        document.getElementById("modeStatus").innerText =
-          "Scam Detected  Ai Takeover Active";
-
-        for (let ch of text) {
-          input.value += ch;
-          await new Promise((r) => setTimeout(r, speed));
-        }
-
-        bar.classList.add("locked");
-      }
-
-      async function sendScammer() {
-        const input = document.getElementById("scammerInput");
-        const msg = input.value.trim();
-        if (!msg) return;
-
-        appendBubble("scammer", msg);
-        input.value = "";
-        document.getElementById("contactName").innerText = "Unknown";
-
-        analyze(msg);
-      }
-
-      async function sendUser() {
-        if (aiTakeover) return;
-
-        const input = document.getElementById("userInput");
-        const msg = input.value.trim();
-        if (!msg) return;
-
-        appendBubble("user", msg);
-        input.value = "";
-
-        analyze(msg);
-      }
-
-      async function analyze(message) {
-        const chat = document.getElementById("chat");
-
-        const typingRow = document.createElement("div");
-        typingRow.className = "row";
-        const typingBubble = document.createElement("div");
-        typingBubble.className = "bubble ai";
-        typingBubble.textContent = "typing…";
-        typingRow.appendChild(typingBubble);
-        chat.appendChild(typingRow);
-        chat.scrollTop = chat.scrollHeight;
-
-        const res = await fetch("/api/receive-message", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            conversation_id: "honeypot",
-            sender_id: "scammer",
-            message,
-          }),
-        });
-
-        const data = await res.json();
-        typingRow.remove();
-
-        if (data.intelligence) {
-          lastIntel = { ...lastIntel, ...data.intelligence };
-          document.getElementById("intelligence").textContent = JSON.stringify(
-            lastIntel,
-            null,
-            2,
-          );
-        }
-
-        if (data.reply) {
-          aiTakeover = true;
-          document.getElementById("modeStatus").innerText =
-            "AI Takeover Active";
-
-          await typeInInput(data.reply);
-          appendBubble("ai", data.reply);
-          document.getElementById("userInput").value = "";
-        }
-      }
-    </script>
-  </body>
+</body>
 </html>
