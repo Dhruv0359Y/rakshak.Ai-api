@@ -248,6 +248,8 @@
 </div>
 
 <script>
+  const conversationId = "honeypot_" + Date.now();
+
   let aiTakeover = false;
   let lastIntel = {};
   let infoVisible = false;
@@ -307,7 +309,7 @@
     input.value = "";
     document.getElementById("contactName").innerText = "Unknown";
 
-    analyze(msg);
+    analyze(msg,"scammer");
     if (fromMobile) togglePanel();
   }
 
@@ -321,10 +323,10 @@
     appendBubble("user", msg);
     input.value = "";
 
-    analyze(msg);
+    analyze(msg,"user");
   }
 
-  async function analyze(message) {
+  async function analyze(message, sender) {
     const chat = document.getElementById("chat");
 
     const typingRow = document.createElement("div");
@@ -341,8 +343,8 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          conversation_id: "honeypot",
-          sender_id: "scammer",
+          conversation_id: "conversationId",
+          sender_id: "sender",
           message,
         }),
       });
